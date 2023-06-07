@@ -1,5 +1,6 @@
 package org.pytorch.demo.objectdetection;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
@@ -8,10 +9,12 @@ import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.media.Image;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.TextureView;
+import android.view.View;
 import android.view.ViewStub;
 
 import android.os.Vibrator;
@@ -44,6 +47,7 @@ public class ObjectDetectionActivity extends AbstractCameraXActivity<ObjectDetec
     public class depthFinding{
 
     }
+    public boolean mode;
 
     static class AnalysisResult {
         private final ArrayList<Result> mResults;
@@ -61,9 +65,32 @@ public class ObjectDetectionActivity extends AbstractCameraXActivity<ObjectDetec
     @Override
     protected TextureView getCameraPreviewTextureView() {
         mResultView = findViewById(R.id.resultView);
-        return ((ViewStub) findViewById(R.id.object_detection_texture_view_stub))
+
+        final ViewStub camera = findViewById(R.id.object_detection_texture_view_stub);
+        final ResultView box = findViewById(R.id.resultView);
+        final TextView text = findViewById(R.id.resultTextView);
+        final TextureView texture =((ViewStub) findViewById(R.id.object_detection_texture_view_stub))
                 .inflate()
                 .findViewById(R.id.object_detection_texture_view);
+
+        if(MainActivity.hidemode)
+        {
+            camera.setAlpha(0.0f);
+            box.setAlpha(0.0f);
+            text.setAlpha(0.0f);
+            texture.setAlpha(0.0f);
+        }
+        else{
+            camera.setAlpha(1.0f);
+            box.setAlpha(1.0f);
+            text.setAlpha(1.0f);
+            texture.setAlpha(1.0f);
+        }
+
+        return texture;
+     //           = ((ViewStub) findViewById(R.id.object_detection_texture_view_stub))
+      //          .inflate()
+       //         .findViewById(R.id.object_detection_texture_view);
     }
 
     @Override
@@ -239,6 +266,7 @@ public class ObjectDetectionActivity extends AbstractCameraXActivity<ObjectDetec
         Matrix matrix = new Matrix();
         matrix.postRotate(90.0f);
         bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        matrix.postRotate(-90.0f);
 
         Bitmap finalBitmap = bitmap;
         Thread thread = new Thread(() -> {

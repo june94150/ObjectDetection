@@ -72,11 +72,11 @@ public abstract class AbstractCameraXActivity<R> extends BaseModuleActivity impl
         startBackgroundThread();
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-            != PackageManager.PERMISSION_GRANTED) {
+                != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
-                this,
-                PERMISSIONS,
-                REQUEST_CODE_CAMERA_PERMISSION);//권한 설정 요청
+                    this,
+                    PERMISSIONS,
+                    REQUEST_CODE_CAMERA_PERMISSION);//권한 설정 요청
         } else {
             setupCameraX();//카메라 권한 설정에 성공시 카메라 객체 생성
         }
@@ -116,11 +116,11 @@ public abstract class AbstractCameraXActivity<R> extends BaseModuleActivity impl
         ImageCapture ic = new ImageCapture(icc);
         //이미지 프로세싱에 필요한 정보들을 설정(카메라 크기, 프레임, 등)
         final ImageAnalysisConfig imageAnalysisConfig =
-            new ImageAnalysisConfig.Builder()
-                .setTargetResolution(new Size(480, 640))
-                .setCallbackHandler(mBackgroundHandler)
-                .setImageReaderMode(ImageAnalysis.ImageReaderMode.ACQUIRE_LATEST_IMAGE)
-                .build();
+                new ImageAnalysisConfig.Builder()
+                        .setTargetResolution(new Size(480, 640))
+                        .setCallbackHandler(mBackgroundHandler)
+                        .setImageReaderMode(ImageAnalysis.ImageReaderMode.ACQUIRE_LATEST_IMAGE)
+                        .build();
         final ImageAnalysis imageAnalysis = new ImageAnalysis(imageAnalysisConfig);
         imageAnalysis.setAnalyzer((image, rotationDegrees) -> {//이건 가로, 세로인지 방향 조정 가능
             ic.takePicture(new ImageCapture.OnImageCapturedListener(){

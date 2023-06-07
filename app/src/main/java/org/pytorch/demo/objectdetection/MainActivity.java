@@ -59,6 +59,11 @@ public class MainActivity extends AppCompatActivity implements Runnable {//c언�
     private Module mModule = null;//이미지 모델 로드
     private float mImgScaleX, mImgScaleY, mIvScaleX, mIvScaleY, mStartX, mStartY;//이미지 프로세싱
 
+    static public boolean hidemode = false;
+    static public boolean vib = true;
+    static public boolean showlog = true;
+
+
     protected class backgroundThread extends Thread{
         protected boolean isRun = true;
     }
@@ -136,12 +141,14 @@ public class MainActivity extends AppCompatActivity implements Runnable {//c언�
                     setPage.setAlpha(0.0f);
                     buttonLive.setAlpha(0.0f);
                     isVisible = false;
+                    hidemode = true;
                 } else {
                     hidePage.setAlpha(1.0f);
                     selectPage.setAlpha(1.0f);
                     setPage.setAlpha(1.0f);
                     buttonLive.setAlpha(1.0f);
                     isVisible = true;
+                    hidemode = false;
                 }
             }
         });
